@@ -1,0 +1,11 @@
+{
+  "name": "readingpartnerbackend",
+  "version": "1.0.0",
+  "description": "If you're an actor and need a scene partner look no further!",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
