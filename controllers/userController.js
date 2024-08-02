@@ -49,6 +49,23 @@ const createUser = async(req, res)=>{
     }
 }
 
+const editUser = async(req, res)=>{
+    try {
+        const userToEdit = req.params.id
+        const userPayload = req.body
+        const editUser = await User.findOneAndUpdate(userToEdit,userPayload, {new: true})
+        res.status(200).json({
+            editUser
+        })
+    } catch (error) {
+        console.error('Error editing user: this error comes from your userController file from the editUser function')
+        res.status(500).json({
+            message: 'Error editing user',
+            error: error.message
+        })
+    }
+}
+
 const deleteUser = async(req,res)=>{
     try {
         const usernameDelete = req.params.username
@@ -59,7 +76,7 @@ const deleteUser = async(req,res)=>{
     } catch (error) {
         console.error('Error deleting user: this error comes from your deleteUser file from the createUser function')
         res.status(500).json({
-            messafe: 'Error deleting user',
+            message: 'Error deleting user',
             error: error.message
         })
     }
@@ -69,5 +86,6 @@ export {
     getAllUsers,
     getUserByUsername,
     createUser,
+    editUser,
     deleteUser
 }
