@@ -1,4 +1,5 @@
 import User from '../models/user.js'
+import Recording from '../models/Recording.js'
 
 //this is just for testing
 const getAllUsers = async(req,res)=>{
@@ -66,21 +67,35 @@ const editUser = async(req, res)=>{
     }
 }
 
-const deleteUser = async(req,res)=>{
+const deleteUser = async (req, res) => {
     try {
-        const usernameDelete = req.params.username
-        const deleteUser = await User.findOneAndDelete({username: usernameDelete})
-        res.status(200).json({
-            deleteUser
-        })
+        const userID = req.params.id;  // Get the ID from the URL parameters
+
+        // Attempt to find and delete the user by ID
+        const deleteUser = await User.findByIdAndDelete(userID);
+
+        if (deleteUser) {
+            // If user is found and deleted, attempt to delete associated recordings
+            const deleteUserData = await Recording.deleteMany({ user: deleteUser._id });
+            return res.status(200).json({
+                message: 'User and related data deleted successfully',
+                deleteUser,
+                deletedRecordings: deleteUserData
+            });
+        } else {
+            // If no user is found, return a 404 response
+            return res.status(404).json({
+                message: 'User not found'
+            });
+        }
     } catch (error) {
-        console.error('Error deleting user: this error comes from your deleteUser file from the createUser function')
-        res.status(500).json({
+        return res.status(500).json({
             message: 'Error deleting user',
             error: error.message
-        })
+        });
     }
 }
+
 
 export {
     getAllUsers,

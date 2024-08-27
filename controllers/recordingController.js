@@ -1,5 +1,15 @@
 import Recording from "../models/Recording.js";
 
+//this get all is for testing
+const getAllRecordings = async (req, res) => {
+  try {
+    const recordings = await Recording.find();
+    res.status(200).json(recordings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const createNewRecording = async (req, res) => {
   try {
     console.log('req.body:', req.body);
@@ -25,13 +35,13 @@ const createNewRecording = async (req, res) => {
   }
 };
 
-const getAllRecordings = async (req, res) => {
-  try {
-    const recordings = await Recording.find();
-    res.status(200).json(recordings);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+const deleteRecording = async (req,res)=>{
+    try {
+        const recordingToDelete = req.params.user
+        
+    } catch (error) {
+        
+    }
+}
 
-export { createNewRecording, getAllRecordings };
+export { createNewRecording, getAllRecordings, deleteRecording };
