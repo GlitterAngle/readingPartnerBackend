@@ -4,9 +4,9 @@ import bcrypt from 'bcrypt'
 const SALT_ROUNDS = 10
 const userSchema = mongoose.Schema({
     username: {type: String, required: true, unique:true, match: /^[A-Za-z0-9]+$/},
-    email: {type: String, required:true, uinique:true, match: /^[A-Za-z0-9]+$/,
+    email: {type: String, required:true, uinique:true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         validate:{ 
-        validator: function(v){
+        validator: function(value){
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
         },
         message: 'Invalid email address format', },
